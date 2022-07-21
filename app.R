@@ -1,10 +1,9 @@
 library(ggplot2)
 library(shiny)
-library(NMF)
 
 data <- readRDS(file.path("./data", "TCGA-GBM_Expression_DESEQ2.RDS"))
 gtex <- readRDS(file.path("./data", "GTEx-Cortex_Expression_DESEQ2.RDS"))
-nmfr <- readRDS(file.path("./data", "TCGA_NMFresults.RDS"))
+nmfr <- readRDS(file.path("./data", "TCGA_NMFres.RDS"))
 
 rank <- 5
 
@@ -43,7 +42,7 @@ server <- function(input, output, session) {
                                 Expression = as.numeric(gtex[which(rownames(gtex) == gene), ])
                         )
 
-                        subgroups <- predict(get(as.character(rank), nmfr$fit), "consensus")
+                        subgroups <- nmfr 
 
                         for (subGroupLv in c(1:rank)) {
                                 dataSubIdx <- which(colnames(data) %in% names(subgroups)[which(subgroups == subGroupLv)])
